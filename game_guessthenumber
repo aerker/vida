@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main()
+{   int game=1;
+    do{
+        int nbx;
+        const int MAX = 100, MIN = 1;
+        srand(time(NULL));
+        nbx = (rand() % (MAX - MIN + 1)) + MIN;
+        /*Generate the mystery number, a number between 1 and 100*/
+
+        printf("\n      <=== Guess the Number ===>\n\n");
+        printf("\n  -- Main Menu --\n\n");
+        printf(" Choose the game mode\n");
+        printf("  1. single player\n");
+        printf("  2. multiple player\n\n");
+        int mode;
+        scanf("%d",&mode);
+        /*mode selection, main menu */
+
+        printf(" Choose the difficulty\n");
+        printf("    1. easy == (15 lives)\n");
+        printf("    2. medium == (10 lives)\n");
+        printf("    3. hard == (5 lives)\n\n");
+        int dif;
+        scanf("%d",&dif);
+        int difgame;
+        switch(dif){
+            case (1): difgame=15;
+            break;
+            case (2): difgame= 10;
+            break;
+            case (3): difgame= 5;
+            break;
+        }
+        /*difficulty selection, second menu */
+
+        int nb;
+        int comp= 0;
+        int lives;
+        /*define the player's number and the try number */
+
+        if (mode==1){
+            printf("Let's Play\n\n");
+            do{
+
+                scanf("%d",&nb);
+                lives=difgame-comp;
+                printf(" lives==> %d\n",lives);
+
+                if (nb<nbx) printf("        -Greater-\n");
+                else if (nb>nbx) printf("       -Lower-\n");
+                printf("        Try Again\n\n");
+                comp++;
+            } while (nb!=nbx && comp<=difgame);
+
+            if (comp==difgame) printf("             --- You Lost ---\n\n");
+            else printf("           --- You Win ---\n\n");
+        }
+        /*single player mode*/
+
+        else {
+            difgame*=2;
+            printf(" Lets begin with the first player\n\n");
+            do{
+                scanf("%d",&nb);
+
+                if (nb<nbx) printf("        -Greater-\n");
+                else if (nb>nbx) printf("       -Lower-\n");
+
+                if (comp%2==1 && nb!=nbx){
+                    printf(" \n\nIts the first player's turn\n");
+                    printf("                                p1 lives==> %d\n\n",(difgame-comp)/2);
+                }
+                else if (comp%2==0 && nb!=nbx) {
+                    printf(" \n\nIts the second player's turn\n");
+                    printf("                                p2 lives==> %d\n\n",(difgame-comp)/2);
+                }
+
+                comp++;
+            } while (nb!=nbx && comp<=difgame);
+            if (comp%2==1 && comp<=difgame) printf("            --- p1 WIN ---\n\n");
+            else if (comp%2!=1 && comp<=difgame) printf("           --- p2 WIN ---\n\n");
+            else printf("           --- All of the players lost ---\n\n");
+        }
+        /*multiple player mode*/
+        printf(" Do you want to restart?\n - 1.YES -\n - 2.NO -\n\n");
+        scanf("%d",&nb);
+        if (nb==2) game=0;
+        /*Restart option*/
+    } while (game);
+}
+
